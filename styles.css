@@ -1,0 +1,216 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1{
+    font-family: "Griffy";
+    font-size: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 3rem
+}
+
+.calculadora {
+    background: #454f64;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 25rem;
+}
+
+.calculadora #pantalla {
+    background: #282828;
+    color: white;
+    font-size: 2rem;
+    text-align: right;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.calculadora #teclado {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        "siete ocho nueve dividir"
+        "cuatro cinco seis multiplicar"
+        "uno dos tres restar"
+        "limpiar cero punto  sumar"
+        "igual igual . sumar";
+    gap: .9375rem;
+}
+
+button[data-area="cero"] {
+    grid-area: cero;
+}
+
+button[data-area="uno"] {
+    grid-area: uno;
+}
+
+button[data-area="dos"] {
+    grid-area: dos;
+}
+
+button[data-area="tres"] {
+    grid-area: tres;
+}
+
+button[data-area="cuatro"] {
+    grid-area: cuatro;
+}
+
+button[data-area="cinco"] {
+    grid-area: cinco;
+}
+
+button[data-area="seis"] {
+    grid-area: seis;
+}
+
+button[data-area="siete"] {
+    grid-area: siete;
+}
+
+button[data-area="ocho"] {
+    grid-area: ocho;
+}
+
+button[data-area="nueve"] {
+    grid-area: nueve;
+}
+
+button[data-area="sumar"] {
+    grid-area: sumar;
+}
+
+button[data-area="restar"] {
+    grid-area: restar;
+}
+
+button[data-area="multiplicar"] {
+    grid-area: multiplicar;
+}
+
+button[data-area="dividir"] {
+    grid-area: dividir;
+}
+
+button[data-area="punto"] {
+    grid-area: punto;
+}
+
+button[data-area="igual"] {
+    grid-area: igual;
+}
+
+button[data-area="limpiar"] {
+    grid-area: limpiar;
+}
+
+.calculadora button {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #8b8888;
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+.calculadora button:hover {
+    background: #7b7979;
+}
+
+.calculadora button.operations {
+    background: #10818b;
+}
+
+.calculadora button.operations:hover {
+    background: #16a7b4;
+}
+
+.calculadora button.igual {
+    background: #43801e;
+}
+
+.calculadora button.igual:hover {
+    background: #63b52f;
+}
+
+.calculadora button.limpiar {
+    background: #ff3b30;
+}
+
+.calculadora button.limpiar:hover {
+    background: #e66456;
+}
+
+.historial {
+    width: 90%; 
+    max-width: 40rem;
+    background-color: #eaeaea;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.historial h2 {
+    margin-bottom: 0.5rem;
+    font-size: 3rem;
+    color: #359f63;
+    font-family:"Griffy";
+}
+
+#historial-lista {
+    list-style: none;
+    max-height: 20rem;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-family: "Griffy";
+    font-size: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#historial-lista li {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+    word-break: break-word;
+}
+
+#historial-lista li:last-child {
+    border-bottom: none;
+}
+
+#limpiar-historial {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    background-color: #359f63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#limpiar-historial:hover {
+    background-color: #0ea550;
+    transition: 1s;
+}

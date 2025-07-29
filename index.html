@@ -1,11 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculadooooora</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Griffy&family=Irish+Grover&family=Knewave&display=swap">
 </head>
+
 <body>
+    <header>
+        <h1>Calculeitor:</h1>
+    </header>
+
+    <main>
+        <section class="calculadora">
+            <output id="pantalla">0</output>
+
+            <div id="teclado">
+                <button class="num" data-area="cero">0</button>
+                <button class="num" data-area="uno">1</button>
+                <button class="num" data-area="dos">2</button>
+                <button class="num" data-area="tres">3</button>
+                <button class="num" data-area="cuatro">4</button>
+                <button class="num" data-area="cinco">5</button>
+                <button class="num" data-area="seis">6</button>
+                <button class="num" data-area="siete">7</button>
+                <button class="num" data-area="ocho">8</button>
+                <button class="num" data-area="nueve">9</button>
+                <button class="operations" data-area="sumar">+</button>
+                <button class="operations" data-area="restar">-</button>
+                <button class="operations" data-area="dividir">÷</button>
+                <button class="operations" data-area="multiplicar">x</button>
+                <button class="num" data-area="punto">.</button>
+                <button class="igual" data-area="igual">=</button>
+                <button class="limpiar" data-area="limpiar">C</button>
+            </div>
+        </section>
+
+        <section class="historial">
+            <h2>Historial de operaciones:</h2>
+            <ul id="historial-lista"></ul>
+            <button id="limpiar-historial">Limpiar historial</button>
+        </section>
+
+        <footer></footer>
+    </main>
     <script src="main.js"></script>
 </body>
+
 </html>

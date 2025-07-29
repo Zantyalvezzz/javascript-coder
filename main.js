@@ -1,113 +1,153 @@
-const opcionesValidas = ["1", "2", "3", "4", "sumar", "restar", "multiplicar", "dividir"];
+const pantalla = document.getElementById("pantalla");
+const botones = document.querySelectorAll("#teclado button");
 
-function sumar(a, b) {
-    return a + b;
+const listaHistorial = document.getElementById("historial-lista");
+const btnClnHis = document.getElementById("limpiar-historial");
+
+let resultadoMostrado = false;
+let historial = JSON.parse(localStorage.getItem("historial")) || [];
+let ultimoRegistro = "";
+let expresionCompleta = "";
+
+if (historial.length > 0) {
+    ultimoRegistro = historial[historial.length - 1];
 }
 
-function restar(a, b) {
-    return a - b;
+actualizarHistorial();
+
+botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+        const valor = boton.textContent;
+
+        if (boton.classList.contains("num")) {
+            siEligeNum(valor);
+        } else if (boton.classList.contains("operations")) {
+            siEligeOp(valor);
+        } else if (boton.classList.contains("igual")) {
+            siEligeC();
+        } else if (boton.classList.contains("limpiar")) {
+            limpiarCalculadora();
+        }
+    });
+});
+
+btnClnHis.addEventListener("click", () => {
+    historial = [];
+    localStorage.removeItem("historial");
+    ultimoRegistro = "";
+    actualizarHistorial();
+});
+
+document.addEventListener("keydown", (event) => {
+    const tecla = event.key;
+
+    if (!isNaN(tecla)) {
+        manejarNumero(tecla);
+    } else if (["+", "-", "*", "/"].includes(tecla)) {
+        const operador = convertirOperador(tecla);
+        manejarOperacion(operador);
+    } else if (tecla === "Enter" || tecla === "=") {
+        manejarIgual();
+    } else if (tecla === "Escape") {
+        limpiarCalculadora();
+    }
+});
+
+function manejarNumero(num) {
+    siEligeNum(num);
 }
 
-function multiplicar(a, b) {
-    return a * b;
-}
-
-function dividir(a, b) {
-    return a / b;
-}
-
-function nombreOperacion(op) {
-    switch(op) {
-        case "1":
-        case "sumar":
-            return "Suma";
-        case "2":
-        case "restar":
-            return "Resta";
-        case "3":
-        case "multiplicar":
-            return "Multiplicación";
-        case "4":
-        case "dividir":
-            return "División";
-        default:
-            return "Desconocida";
+function convertirOperador(tecla) {
+    switch (tecla) {
+        case "*": return "x";
+        case "/": return "÷";
+        default: return tecla;
     }
 }
 
-function calculadora() {
-    let operacion;
+function manejarOperacion(op) {
+    siEligeOp(op);
+}
 
-    while (!opcionesValidas.includes(operacion)) {
-        operacion = prompt(
-            "¿Qué operación deseas realizar?\n" +
-            "1. Sumar\n" +
-            "2. Restar\n" +
-            "3. Multiplicar\n" +
-            "4. Dividir"
-        );
+function manejarIgual() {
+    siEligeC();
+}
 
-        if (!opcionesValidas.includes(operacion)) {
-            alert("Opción inválida, por favor elija una de la lista.");
+function esOperador(solouno) {
+    return ["+", "-", "x", "÷"].includes(solouno);
+}
+
+function siEligeNum(num) {
+    if (resultadoMostrado) {
+        expresionCompleta = num;
+        resultadoMostrado = false;
+    } else {
+        if (expresionCompleta === "0") {
+            expresionCompleta = num;
+        } else {
+            expresionCompleta += num;
         }
     }
+    actualizarPantalla();
+}
 
-    let numero1 = parseFloat(prompt("Ingresa el primer número"));
-    let numero2 = parseFloat(prompt("Ingresa el segundo número:"));
+function siEligeOp(op) {
+    if (expresionCompleta === "") return;
 
-    let resultado;
-    let viewresultado = true;
+    const ultimoChar = expresionCompleta.slice(-1);
 
-    switch (operacion) {
-        case "1":
-        case "sumar":
-            resultado = sumar(numero1, numero2);
-            break;
-        case "2":
-        case "restar":
-            resultado = restar(numero1, numero2);
-            break;
-        case "3":
-        case "multiplicar":
-            resultado = multiplicar(numero1, numero2);
-            break;
-        case "4":
-        case "dividir":
-            if (numero2 !== 0) {
-                resultado = dividir(numero1, numero2);
-            } else {
-                alert("error 404 syntax err");
-                viewresultado = false;
-            }
-            break;
-        default:
-            alert("Opción no válida");
-            viewresultado = false;
+    if (esOperador(ultimoChar)) {
+        expresionCompleta = expresionCompleta.slice(0, -1) + op;
+    } else {
+        expresionCompleta += op;
     }
+    resultadoMostrado = false;
+    actualizarPantalla();
+}
 
-    if (viewresultado) {
-        alert("El resultado es: " + resultado);
+function siEligeC() {
+    if (expresionCompleta === "") return;
 
-        const resumen = {
-            operación: nombreOperacion(operacion),
-            primerNúmero: numero1,
-            segundoNúmero: numero2,
-            resultado: resultado
-        };
+    const expresionEval = expresionCompleta.replace(/x/g, "*").replace(/÷/g, "/");
 
-        alert(
-            "Resumen:\n" +
-            "Operación realizada: " + resumen.operación + "\n" +
-            "Primer número: " + resumen.primerNúmero + "\n" +
-            "Segundo número: " + resumen.segundoNúmero + "\n" +
-            "Resultado: " + resumen.resultado
-        );
+    try {
+        const resultado = eval(expresionEval);
+
+        if (expresionCompleta !== resultado.toString()) {
+            const registro = expresionCompleta + "=" + resultado;
+
+            if (registro !== ultimoRegistro) {
+                historial.push(registro);
+                localStorage.setItem("historial", JSON.stringify(historial));
+                actualizarHistorial();
+                ultimoRegistro = registro;
+            }
+        }
+
+        pantalla.textContent = resultado;
+        expresionCompleta = resultado.toString();
+        resultadoMostrado = true;
+    } catch {
+        pantalla.textContent = "Error";
+        expresionCompleta = "";
     }
 }
 
-let continuar = "si";
+function limpiarCalculadora() {
+    expresionCompleta = "";
+    resultadoMostrado = false;
+    pantalla.textContent = "0";
+}
 
-while (continuar === "si") {
-    calculadora();
-    continuar = prompt("¿Desea realizar otra operación? (si / no)").toLowerCase();
+function actualizarPantalla() {
+    pantalla.textContent = expresionCompleta || "0";
+}
+
+function actualizarHistorial() {
+    listaHistorial.innerHTML = "";
+    historial.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        listaHistorial.appendChild(li);
+    });
 }
