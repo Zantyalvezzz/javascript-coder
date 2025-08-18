@@ -4,12 +4,46 @@
     box-sizing: border-box;
 }
 
-h1{
+body {
+  background-image: url(images/fondo.jpeg);
+
+}
+
+header {
+    background-color: rgb(42, 42, 42);
+}
+
+h1 {
     font-family: "Griffy";
-    font-size: 6rem;
+    font-size: 5rem;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
+}
+
+h1 {
+    animation: tituloprincipal 7s ease infinite;
+    transition: 1s;
+}
+
+@keyframes tituloprincipal {
+    25% {
+        color: #7143ce;
+    }
+
+    50% {
+        color: white;
+    }
+
+    75% {
+        color: #7143ce;
+    }
+
+    100% {
+        color: white;
+    }
 }
 
 main {
@@ -19,6 +53,7 @@ main {
     flex-direction: column;
     padding: 3rem
 }
+
 
 .calculadora {
     background: #454f64;
@@ -162,26 +197,26 @@ button[data-area="limpiar"] {
 }
 
 .historial {
-    width: 90%; 
-    max-width: 40rem;
-    background-color: #eaeaea;
+    width: 80%;
+    background-color: #8854e8c7;
     border-radius: 10px;
     padding: 2rem;
+    margin-top: 2rem;
 }
 
 .historial h2 {
     margin-bottom: 0.5rem;
-    font-size: 3rem;
-    color: #359f63;
-    font-family:"Griffy";
+    font-size: 3.5rem;
+    color: black;
+    font-family: "Griffy";
 }
 
 #historial-lista {
     list-style: none;
     max-height: 20rem;
     overflow-y: auto;
-    background-color: #f7f7f7;
-    border: 2px solid #ccc;
+    background-color: #deb9f4;
+    border: 2px solid #41094a;
     border-radius: 8px;
     font-family: "Griffy";
     font-size: 1.5rem;
@@ -190,8 +225,8 @@ button[data-area="limpiar"] {
 
 #historial-lista li {
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid #e0e0e0;
-    color: #333;
+    border-bottom: 1px solid #41094a;
+    color: #141414;
     word-break: break-word;
 }
 
@@ -201,16 +236,17 @@ button[data-area="limpiar"] {
 
 #limpiar-historial {
     margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.95rem;
-    background-color: #359f63;
-    color: white;
+    padding: 1rem;
+    font-size: 1.5rem;
+    background-color: #ffffff;
+    color: #41094a;
+    font-family: "Griffy";
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 #limpiar-historial:hover {
-    background-color: #0ea550;
+    background-color: #4a11bb;
     transition: 1s;
 }

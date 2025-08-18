@@ -2,7 +2,7 @@ const pantalla = document.getElementById("pantalla");
 const botones = document.querySelectorAll("#teclado button");
 
 const listaHistorial = document.getElementById("historial-lista");
-const btnClnHis = document.getElementById("limpiar-historial");
+const btnLimpiarHistorial = document.getElementById("limpiar-historial");
 
 let resultadoMostrado = false;
 let historial = JSON.parse(localStorage.getItem("historial")) || [];
@@ -31,7 +31,7 @@ botones.forEach(boton => {
     });
 });
 
-btnClnHis.addEventListener("click", () => {
+btnLimpiarHistorial.addEventListener("click", () => {
     historial = [];
     localStorage.removeItem("historial");
     ultimoRegistro = "";
@@ -42,20 +42,17 @@ document.addEventListener("keydown", (event) => {
     const tecla = event.key;
 
     if (!isNaN(tecla)) {
-        manejarNumero(tecla);
+        siEligeNum(tecla);
     } else if (["+", "-", "*", "/"].includes(tecla)) {
         const operador = convertirOperador(tecla);
-        manejarOperacion(operador);
+        siEligeOp(operador);
     } else if (tecla === "Enter" || tecla === "=") {
-        manejarIgual();
+        siEligeC();
     } else if (tecla === "Escape") {
         limpiarCalculadora();
     }
 });
 
-function manejarNumero(num) {
-    siEligeNum(num);
-}
 
 function convertirOperador(tecla) {
     switch (tecla) {
@@ -63,14 +60,6 @@ function convertirOperador(tecla) {
         case "/": return "÷";
         default: return tecla;
     }
-}
-
-function manejarOperacion(op) {
-    siEligeOp(op);
-}
-
-function manejarIgual() {
-    siEligeC();
 }
 
 function esOperador(solouno) {
@@ -96,11 +85,9 @@ function siEligeOp(op) {
 
     const ultimoChar = expresionCompleta.slice(-1);
 
-    if (esOperador(ultimoChar)) {
-        expresionCompleta = expresionCompleta.slice(0, -1) + op;
-    } else {
-        expresionCompleta += op;
-    }
+    if (esOperador(ultimoChar)) return;
+
+    expresionCompleta += op;
     resultadoMostrado = false;
     actualizarPantalla();
 }
@@ -108,28 +95,31 @@ function siEligeOp(op) {
 function siEligeC() {
     if (expresionCompleta === "") return;
 
-    const expresionEval = expresionCompleta.replace(/x/g, "*").replace(/÷/g, "/");
+    const resultado = calcularResultado(expresionCompleta);
 
-    try {
-        const resultado = eval(expresionEval);
-
-        if (expresionCompleta !== resultado.toString()) {
-            const registro = expresionCompleta + "=" + resultado;
-
-            if (registro !== ultimoRegistro) {
-                historial.push(registro);
-                localStorage.setItem("historial", JSON.stringify(historial));
-                actualizarHistorial();
-                ultimoRegistro = registro;
-            }
+    if (resultado !== "Error" && expresionCompleta !== resultado.toString()) {
+        const registro = expresionCompleta + "=" + resultado;
+        if (registro !== ultimoRegistro) {
+            historial.push(registro);
+            localStorage.setItem("historial", JSON.stringify(historial));
+            actualizarHistorial();
+            ultimoRegistro = registro;
         }
-
-        pantalla.textContent = resultado;
         expresionCompleta = resultado.toString();
         resultadoMostrado = true;
-    } catch {
-        pantalla.textContent = "Error";
+    } else if (resultado === "Error") {
         expresionCompleta = "";
+    }
+
+    pantalla.textContent = resultado;
+}
+
+function calcularResultado(expresion) {
+    const expresionEvaluada = expresion.replace(/x/g, "*").replace(/÷/g, "/");
+    try {
+        return eval(expresionEvaluada);
+    } catch {
+        return "Error";
     }
 }
 
