@@ -24,7 +24,7 @@ botones.forEach(boton => {
         } else if (boton.classList.contains("operations")) {
             siEligeOp(valor);
         } else if (boton.classList.contains("igual")) {
-            siEligeC();
+            siEligeIgual();
         } else if (boton.classList.contains("limpiar")) {
             limpiarCalculadora();
         }
@@ -47,7 +47,7 @@ document.addEventListener("keydown", (event) => {
         const operador = convertirOperador(tecla);
         siEligeOp(operador);
     } else if (tecla === "Enter" || tecla === "=") {
-        siEligeC();
+        siEligeIgual();
     } else if (tecla === "Escape") {
         limpiarCalculadora();
     }
@@ -83,16 +83,16 @@ function siEligeNum(num) {
 function siEligeOp(op) {
     if (expresionCompleta === "") return;
 
-    const ultimoChar = expresionCompleta.slice(-1);
+    const ultimoCaracter = expresionCompleta.slice(-1);
 
-    if (esOperador(ultimoChar)) return;
+    if (esOperador(ultimoCaracter)) return;
 
     expresionCompleta += op;
     resultadoMostrado = false;
     actualizarPantalla();
 }
 
-function siEligeC() {
+function siEligeIgual() {
     if (expresionCompleta === "") return;
 
     const resultado = calcularResultado(expresionCompleta);
@@ -112,6 +112,15 @@ function siEligeC() {
     }
 
     pantalla.textContent = resultado;
+
+    Swal.fire({
+        title: "Resultado:",
+        text: pantalla.textContent,
+        customClass: {
+            popup: 'alerta-resultado'
+        }
+});
+
 }
 
 function calcularResultado(expresion) {

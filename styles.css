@@ -250,3 +250,16 @@ button[data-area="limpiar"] {
     background-color: #4a11bb;
     transition: 1s;
 }
+
+.alerta-resultado .swal2-title {
+    font-size: 4rem;
+    font-family: "Griffy";
+    color: #000000;
+}
+.alerta-resultado .swal2-html-container,
+.alerta-resultado .swal2-content {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #7143ce;
+    
+}
