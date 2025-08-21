@@ -5,7 +5,7 @@
 }
 
 body {
-  background-image: url(images/fondo.jpeg);
+    background-image: url(images/fondo.jpeg);
 
 }
 
@@ -256,10 +256,11 @@ button[data-area="limpiar"] {
     font-family: "Griffy";
     color: #000000;
 }
+
 .alerta-resultado .swal2-html-container,
 .alerta-resultado .swal2-content {
     font-size: 3rem;
     font-weight: bold;
     color: #7143ce;
-    
+
 }

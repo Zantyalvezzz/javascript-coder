@@ -128,10 +128,6 @@ function siEligeIgual() {
         body: JSON.stringify({ registro: expresionCompleta + "=" + resultado })
     })
         .then(response => response.json())
-        .then(data => {
-            historial.push(data.registro);
-            actualizarHistorial();
-        })
         .catch(error => {
             console.error("error al guardar")
         });
