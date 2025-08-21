@@ -47,6 +47,7 @@ document.addEventListener("keydown", (event) => {
         const operador = convertirOperador(tecla);
         siEligeOp(operador);
     } else if (tecla === "Enter" || tecla === "=") {
+        event.preventDefault();
         siEligeIgual();
     } else if (tecla === "Escape") {
         limpiarCalculadora();
