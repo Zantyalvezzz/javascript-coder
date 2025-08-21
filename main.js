@@ -119,7 +119,22 @@ function siEligeIgual() {
         customClass: {
             popup: 'alerta-resultado'
         }
-});
+    });
+
+
+    fetch("https://68a6d44d639c6a54e99ffe1e.mockapi.io/calculadora", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registro: expresionCompleta + "=" + resultado })
+    })
+        .then(response => response.json())
+        .then(data => {
+            historial.push(data.registro);
+            actualizarHistorial();
+        })
+        .catch(error => {
+            console.error("error al guardar")
+        });
 
 }
 
